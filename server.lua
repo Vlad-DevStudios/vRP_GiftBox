@@ -20,7 +20,6 @@ vRPclient = Tunnel.getInterface("vRP","vRP_giftbox")
 MySQL.createCommand("vRP/giftbox_init_user","INSERT IGNORE INTO vrp_giftbox(user_id,giftbox) VALUES(@user_id,@giftbox)")
 MySQL.createCommand("vRP/get_giftbox","SELECT * FROM vrp_giftbox WHERE user_id = @user_id")
 MySQL.createCommand("vRP/set_giftbox","UPDATE vrp_giftbox SET giftbox = @giftbox WHERE user_id = @user_id")
-MySQL.createCommand("vRP/add_custom_vehicle","INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle,vehicle_plate,veh_type) VALUES(@user_id,@vehicle,@vehicle_plate,@veh_type)")
 
 tmpgiftbox = {}
 
