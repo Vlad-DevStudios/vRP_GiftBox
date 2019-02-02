@@ -161,7 +161,7 @@ end
 RegisterServerEvent('vRP:giftboxopen')
 AddEventHandler('vRP:giftboxopen', function ()
 	local cfg = getConfig()
-	local chance = math.random(1,5)
+	local chance = math.random(1,3)
 	local money = math.random(1000,30000)
 	local giftbox = math.random(1,1)
 	if chance ~= 1 then
@@ -182,22 +182,6 @@ AddEventHandler('vRP:giftboxopen', function ()
 		vRPclient.notify(source,{cfg.message.not_enough_gb})
 	end 
 		if chance ~= 3 then
-			if vRPgb.tryBoxPayment(source,1) then
-			vRP.giveMoney({source,money})
-			vRPclient.notify(source,{"~w~[~g~GiftBox~w~] You got ~g~".. money .."$~w~!"})
-			TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2'.. money ..'$^0!')
-		else
-			vRPclient.notify(source,{cfg.message.not_enough_gb})
-		end
-		if chance ~= 4 then 
-			if vRPgb.tryBoxPayment(source,1) then
-			vRPgb.givegiftbox(source,giftbox)
-			vRPclient.notify(source,{"~w~[~g~GiftBox~w~] You got a ~g~".. giftbox .. " GiftBox ~w~!"})
-			TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2'.. giftbox ..' GiftBox^0!')
-		else
-			vRPclient.notify(source,{cfg.message.not_enough_gb})
-		end 
-		if chance ~= 5 then
 			if vRPgb.tryBoxPayment(user_id,1) then
 				vRPclient.notify(source,{"~w~[~g~GiftBox~w~] You didn't got any thing!"})
 				TriggerClientEvent('chatmessage', -1, '', { 255, 255, 255}, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2Nothing^0!')
