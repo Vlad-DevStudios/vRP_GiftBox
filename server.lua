@@ -191,8 +191,6 @@ AddEventHandler('vRP:giftboxopen', function ()
 		end
 	end
 end
-end
-end
 end)
 
 RegisterServerEvent('vRP:moneygift')
