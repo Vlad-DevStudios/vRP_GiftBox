@@ -196,9 +196,10 @@ end)
 RegisterServerEvent('vRP:moneygift')
 AddEventHandler('vRP:moneygift', function ()
 	local cfg = getConfig()
-	if vRP.tryPayment({source,cfg.market.amount}) then
+	local user_id = vRP.getUserId({source})
+	if vRP.tryPayment({user_id,cfg.market.amount}) then
 		vRPclient.addBlip(source,{-530.02941894532,-229.9102935791,36.702156066894,66,69,"GiftBox"})
-		vRPgb.givegiftbox(source,1)
+		vRPgb.givegiftbox(user_id,1)
 		vRPclient.notify(source, {cfg.market.tr_succes})
 	else
 		vRPclient.notify(source, {cfg.market.not_enough_m})
