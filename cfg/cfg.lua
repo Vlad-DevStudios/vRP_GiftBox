@@ -13,6 +13,21 @@ cfg.message = {
 	not_enough_gb = "~w~[~g~GiftBox~w~] You don't have enough ~g~GiftBoxes~w~!",
 	tr_succes = "~w~[~g~GiftBox~w~] The ~g~Transaction ~w~was made successfully~w~!",
 	not_enough_m = "~w~[~g~GiftBox~w~] You don't have enough ~g~Money~w~!",
+	only_has = "~w~[~g~GiftBox~w~] Player only has ~g~"
+}
+
+cfg.giftbox = {
+	msg_got = "~w~[~g~GiftBox~w~] You got a ~g~",
+	msg_got_n = "~w~[~g~GiftBox~w~] You didn't got any thing!",
+	amount_g = 1,3,
+	amount_m = 1000,30000,
+	open_amount = 1
+}
+
+cfg.market = {
+	tr_succes = "~w~[~g~GiftBox~w~] The ~g~Transaction ~w~was made successfully~w~!",
+	not_enough_m = "~w~[~g~GiftBox~w~] You don't have enough ~g~Money~w~!",
+	amount = 1000000
 }
 
 cfg.paycheck = {
@@ -26,6 +41,10 @@ cfg.menu = {
 	permission = "giftbox.admin",
 	take_desc = "Take giftboxes from a player",
 	give_desc = "Give giftboxes to a player",
+	prompt_g = "GiftBoxes: ",
+	prompt_user_id = "User ID: ",
+	give_t = "Give GiftBox",
+	take_t = "Take GiftBox"
 }
 
 cfg.open_giftbox = 1
