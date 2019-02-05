@@ -106,11 +106,11 @@ end)
 
 local function givePlayergiftbox(player,choice)
 	local cfg = getConfig()
-	vRP.prompt({player, "User ID: ", "", function(player, user_id)
+	vRP.prompt({player, cfg.menu.prompt_user_id, "", function(player, user_id)
 		user_id = tonumber(user_id)
 		local target = vRP.getUserSource({user_id})
 		if target ~= nil then
-			vRP.prompt({player, "GiftBoxes: ", "", function(player, giftbox)
+			vRP.prompt({player, cfg.menu.prompt_g, "", function(player, giftbox)
 				giftbox = giftbox
 				if(tonumber(giftbox))then
 					giftbox = tonumber(giftbox)
@@ -130,11 +130,11 @@ end
 
 local function takePlayergiftbox(player,choice)
 	local cfg = getConfig()
-	vRP.prompt({player, "User ID: ", "", function(player, user_id)
+	vRP.prompt({player, cfg.menu.prompt_user_id, "", function(player, user_id)
 		user_id = tonumber(user_id)
 		local target = vRP.getUserSource({user_id})
 		if target ~= nil then
-			vRP.prompt({player, "GiftBoxes: ", "", function(player, giftbox)
+			vRP.prompt({player, cfg.menu.prompt_g, "", function(player, giftbox)
 				giftbox = giftbox
 				local tgiftbox = tonumber(vRPgb.getgiftbox(user_id))
 				if(tonumber(giftbox))then
@@ -145,7 +145,7 @@ local function takePlayergiftbox(player,choice)
 						vRPclient.notify(target, {"~w~[~g~GiftBox~w~] ~g~"..GetPlayerName(player).."~w~ took ~g~"..giftbox.." Giftboxes~w~ from you!"})
 						TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(player) ..' ^0took from ^2'.. GetPlayerName(target) ..'^0, ^2'.. giftbox ..' GiftBoxes ^0!')
 					else
-						vRPclient.notify(player, {"~w~[~g~GiftBox~w~] Player only has ~g~"..tgiftbox.." Giftboxes~w~!",})
+						vRPclient.notify(player, {cfg.message.only_has ..tgiftbox.." Giftboxes~w~!",})
 					end
 				else
 					vRPclient.notify(player, {cfg.message.invalid_number})
@@ -160,29 +160,30 @@ end
 RegisterServerEvent('vRP:giftboxopen')
 AddEventHandler('vRP:giftboxopen', function ()
 	local cfg = getConfig()
+	local user_id = vRP.getUserId({source})
 	local chance = math.random(1,3)
-	local money = math.random(1000,30000)
-	local giftbox = math.random(1,1)
+	local money = math.random(cfg.giftbox.amount_m)
+	local giftbox = math.random(cfg.giftbox.amount_g)
 	if chance ~= 1 then
-		if vRPgb.tryBoxPayment(source,1) then
+		if vRPgb.tryBoxPayment(user_id,cfg.giftbox.open_amount) then
 		vRPclient.addBlip(source,{-545.720703125,-227.97738647461,37.649803161621,500,69,"GiftBox Market"})
-		vRP.giveMoney({source,money})
-		vRPclient.notify(source,{"~w~[~g~GiftBox~w~] You got ~g~".. money .."$~w~!"})
+		vRP.giveMoney({user_id,money})
+		vRPclient.notify(source,{cfg.giftbox.msg_got .. money .."$~w~!"})
 		TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2'.. money ..'$^0!')
 	else
 		vRPclient.notify(source,{cfg.message.not_enough_gb})
 	end
 	if chance ~= 2 then 
-		if vRPgb.tryBoxPayment(source,1) then
-		vRPgb.givegiftbox(source,giftbox)
-		vRPclient.notify(source,{"~w~[~g~GiftBox~w~] You got a ~g~".. giftbox .. " GiftBox ~w~!"})
+		if vRPgb.tryBoxPayment(user_id,1) then
+		vRPgb.givegiftbox(user_id,giftbox)
+		vRPclient.notify(source,{cfg.giftbox.msg_got .. giftbox .. " GiftBox ~w~!"})
 		TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2'.. giftbox ..' GiftBox^0!')
 	else
 		vRPclient.notify(source,{cfg.message.not_enough_gb})
 	end 
 		if chance ~= 3 then
 			if vRPgb.tryBoxPayment(user_id,1) then
-				vRPclient.notify(source,{"~w~[~g~GiftBox~w~] You didn't got any thing!"})
+				vRPclient.notify(user_id,{cfg.giftbox.msg_got_n})
 				TriggerClientEvent('chatmessage', -1, '', { 255, 255, 255}, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2Nothing^0!')
 			else
 				vRPclient.notify(source,{cfg.message.not_enough_gb})
@@ -195,12 +196,12 @@ end)
 RegisterServerEvent('vRP:moneygift')
 AddEventHandler('vRP:moneygift', function ()
 	local cfg = getConfig()
-	if vRP.tryPayment({source,1000000}) then
+	if vRP.tryPayment({source,cfg.market.amount}) then
 		vRPclient.addBlip(source,{-530.02941894532,-229.9102935791,36.702156066894,66,69,"GiftBox"})
 		vRPgb.givegiftbox(source,1)
-		vRPclient.notify(source, {cfg.message.tr_succes})
+		vRPclient.notify(source, {cfg.market.tr_succes})
 	else
-		vRPclient.notify(source, {cfg.message.not_enough_m})
+		vRPclient.notify(source, {cfg.market.not_enough_m})
 	end
 end)
 
@@ -218,10 +219,10 @@ vRP.registerMenuBuilder({"admin", function(add, data)
 	if user_id ~= nil then
 		local choices = {}
 		if(vRP.hasPermission({user_id, cfg.menu.permission}))then
-			choices["Give GiftBox"] = {givePlayergiftbox, cfg.menu.give_desc}
+			choices[cfg.menu.give_t] = {givePlayergiftbox, cfg.menu.give_desc}
 		end
-		if(vRP.hasPermission({user_id, "giftbox.admin"}))then
-			choices["Take GiftBox"] = {takePlayergiftbox, cfg.menu.take_desc}
+		if(vRP.hasPermission({user_id, cfg.menu.permission}))then
+			choices[cfg.menu.take_t] = {takePlayergiftbox, cfg.menu.take_desc}
 		end
 		add(choices)
 	end
