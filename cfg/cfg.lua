@@ -19,10 +19,11 @@ cfg.message = {
 cfg.giftbox = {
 	msg_got = "~w~[~g~GiftBox~w~] You got a ~g~",
 	msg_got_n = "~w~[~g~GiftBox~w~] You didn't got any thing!",
-	amount_g = 1,3,
-	amount_m = 1000,30000,
 	open_amount = 1
 }
+
+cfg.giftbox.amount_g = 1,3
+cfg.giftbox.amount_m = 1000,30000
 
 cfg.market = {
 	tr_succes = "~w~[~g~GiftBox~w~] The ~g~Transaction ~w~was made successfully~w~!",
