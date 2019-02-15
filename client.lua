@@ -1,5 +1,5 @@
 ------------------------CREDITS------------------------
--------- Script made by Vlad, DevStudios Owner  -------
+-------- Script made by Vlad, DevStudios Owner --------
 --         Script made for Diamond Romania RP        --
 --          Site: https://devstudios.store           --
 --        Forum: http://forum.devstudios.store       --
