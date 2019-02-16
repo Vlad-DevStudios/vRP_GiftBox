@@ -17,7 +17,17 @@ Proxy.addInterface("vRP_giftbox",vRPgb)
 
 vRPclient = Tunnel.getInterface("vRP","vRP_giftbox")
 
+MySQL.createCommand("vRP/gitbox_init", [[
+	CREATE TABLE `vrp_giftbox` (
+	`user_id` int(255) NOT NULL,
+	`giftbox` int(255) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `vrp_giftbox`
+ADD PRIMARY KEY (`user_id`);
+]])
 MySQL.createCommand("vRP/giftbox_init_user","INSERT IGNORE INTO vrp_giftbox(user_id,giftbox) VALUES(@user_id,@giftbox)")
+MySQL.createCommand("vRP/giftbox_drop","DROP DATABASE vrp_giftbox")
 MySQL.createCommand("vRP/get_giftbox","SELECT * FROM vrp_giftbox WHERE user_id = @user_id")
 MySQL.createCommand("vRP/set_giftbox","UPDATE vrp_giftbox SET giftbox = @giftbox WHERE user_id = @user_id")
 
@@ -157,14 +167,27 @@ local function takePlayergiftbox(player,choice)
 	end})
 end
 
+local function giftboxadmin(player,choice)
+local cfg = getConfig()
+		vRP.buildMenu({"GiftBox", {player = player}, function(menu)
+			menu.name = "GiftBox"
+			menu.css={top="75px",header_color="rgba(200,0,0,0.75)"}
+			menu.onclose = function(player) vRP.closeMenu({player}) end
+			menu[cfg.menu.reset_t] = {cfggiftbox, cfg.menu.reset_desc}
+			menu[cfg.menu.cfgdb_t] = {resetgiftbox, cfg.menu.cfgdb_desc}
+			menu[cfg.menu.give_t] = {givePlayergiftbox, cfg.menu.give_desc}
+			menu[cfg.menu.take_t] = {takePlayergiftbox, cfg.menu.take_desc}
+		vRP.openMenu({player,menu})
+	end})
+end
+
 RegisterServerEvent('vRP:giftboxopen')
 AddEventHandler('vRP:giftboxopen', function ()
 	local cfg = getConfig()
 	local user_id = vRP.getUserId({source})
-	local chance = math.random(1,3)
-	local money = math.random(cfg.giftbox.amount_m)
-	local giftbox = math.random(cfg.giftbox.amount_g)
+	local chance = math.random(3,4)
 	if chance ~= 1 then
+	local money = math.random(700000,1500000)
 		if vRPgb.tryBoxPayment(user_id,cfg.giftbox.open_amount) then
 		vRPclient.addBlip(source,{-545.720703125,-227.97738647461,37.649803161621,500,69,"GiftBox Market"})
 		vRP.giveMoney({user_id,money})
@@ -173,16 +196,43 @@ AddEventHandler('vRP:giftboxopen', function ()
 	else
 		vRPclient.notify(source,{cfg.message.not_enough_gb})
 	end
-	if chance ~= 2 then 
-		if vRPgb.tryBoxPayment(user_id,1) then
+	if chance ~= 2 then
+	local giftbox = math.random(1,3)
+		if vRPgb.tryBoxPayment(user_id,cfg.giftbox.open_amount) then
 		vRPgb.givegiftbox(user_id,giftbox)
 		vRPclient.notify(source,{cfg.giftbox.msg_got .. giftbox .. " GiftBox ~w~!"})
 		TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2'.. giftbox ..' GiftBox^0!')
 	else
 		vRPclient.notify(source,{cfg.message.not_enough_gb})
-	end 
-		if chance ~= 3 then
-			if vRPgb.tryBoxPayment(user_id,1) then
+	end
+	if chance ~= 3 then
+	local car = math.random(1,3)
+	if car ~= 1 then
+	if vRPgb.tryBoxPayment(user_id,cfg.giftbox.open_amount) then
+	MySQL.execute("vRP/add_vehicle", {user_id = user_id, vehicle = cfg.cars.car1})
+	vRPclient.notify(source,{cfg.giftbox.msg_got .. cfg.cars.car1_n .."~w~!"})
+	TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got a ^2'.. cfg.cars.car1_n ..'^0!')
+else
+	vRPclient.notify(source,{cfg.message.not_enough_gb})
+end
+if car ~= 2 then
+if vRPgb.tryBoxPayment(user_id,cfg.giftbox.open_amount) then
+MySQL.execute("vRP/add_vehicle", {user_id = user_id, vehicle = cfg.cars.car2})
+vRPclient.notify(source,{cfg.giftbox.msg_got .. cfg.cars.car2_n .."~w~!"})
+TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got a ^2'.. cfg.cars.car2_n ..'^0!')
+else
+vRPclient.notify(source,{cfg.message.not_enough_gb})
+end
+if car ~= 3 then
+if vRPgb.tryBoxPayment(user_id,cfg.giftbox.open_amount) then
+MySQL.execute("vRP/add_vehicle", {user_id = user_id, vehicle = cfg.cars.car3})
+vRPclient.notify(source,{cfg.giftbox.msg_got .. cfg.cars.car3_n .."~w~!"})
+TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got a ^2'.. cfg.cars.car3_n ..'^0!')
+else
+vRPclient.notify(source,{cfg.message.not_enough_gb})
+end
+	if chance ~= 4 then
+		if vRPgb.tryBoxPayment(user_id,1) then
 				vRPclient.notify(user_id,{cfg.giftbox.msg_got_n})
 				TriggerClientEvent('chatmessage', -1, '', { 255, 255, 255}, '^0[^2GiftBox^0] ^2'.. GetPlayerName(source) ..'^0 opened a ^2GiftBox ^0and he got ^2Nothing^0!')
 			else
@@ -191,18 +241,22 @@ AddEventHandler('vRP:giftboxopen', function ()
 		end
 	end
 end
-end)
+end
+end
+end
+end
+end) --vRPclient.giveWeapons
 
 RegisterServerEvent('vRP:moneygift')
 AddEventHandler('vRP:moneygift', function ()
 	local cfg = getConfig()
 	local user_id = vRP.getUserId({source})
 	if vRP.tryPayment({user_id,cfg.market.amount}) then
-		vRPclient.addBlip(source,{-530.02941894532,-229.9102935791,36.702156066894,66,69,"GiftBox"})
+		vRPclient.addBlip(source,{-530.02941894532,-229.9102935791,36.702156066894,500,69,"GiftBox"})
 		vRPgb.givegiftbox(user_id,1)
-		vRPclient.notify(source, {cfg.market.tr_succes})
+		vRPclient.notify(user_id, {cfg.market.tr_succes})
 	else
-		vRPclient.notify(source, {cfg.market.not_enough_m})
+		vRPclient.notify(user_id, {cfg.market.not_enough_m})
 	end
 end)
 
@@ -220,12 +274,8 @@ vRP.registerMenuBuilder({"admin", function(add, data)
 	if user_id ~= nil then
 		local choices = {}
 		if(vRP.hasPermission({user_id, cfg.menu.permission}))then
-			choices[cfg.menu.give_t] = {givePlayergiftbox, cfg.menu.give_desc}
-		end
-		if(vRP.hasPermission({user_id, cfg.menu.permission}))then
-			choices[cfg.menu.take_t] = {takePlayergiftbox, cfg.menu.take_desc}
+			choices[cfg.menu.name] = {giftboxadmin, cfg.menu.name_desc}
 		end
 		add(choices)
 	end
 end})
-
