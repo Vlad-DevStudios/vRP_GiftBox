@@ -22,8 +22,14 @@ cfg.giftbox = {
 	open_amount = 1
 }
 
-cfg.giftbox.amount_g = 1,3
-cfg.giftbox.amount_m = 1000,30000
+cfg.cars = {
+	car1 = "t20",
+	car2 = "bagger",
+	car3 = "infernus",
+	car1_n = "T20",
+	car2_n = "Bagger",
+	car3_n = "Infernus"
+}
 
 cfg.market = {
 	tr_succes = "~w~[~g~GiftBox~w~] The ~g~Transaction ~w~was made successfully~w~!",
@@ -40,12 +46,18 @@ cfg.paycheck = {
 
 cfg.menu = {
 	permission = "giftbox.admin",
+	name_desc = "GiftBox Admin Menu",
 	take_desc = "Take giftboxes from a player",
 	give_desc = "Give giftboxes to a player",
+	cfgdb_desc = "Config the GiftBox DataBase",
+	reset_desc = "Reset the giftBox from a player",
 	prompt_g = "GiftBoxes: ",
 	prompt_user_id = "User ID: ",
-	give_t = "Give GiftBox",
-	take_t = "Take GiftBox"
+	name = "GiftBox",
+	give_t = "Give",
+	take_t = "Take",
+	reset_t = "Reset GiftBoxes",
+	cfgdb_t = "Config DataBase"
 }
 
 cfg.open_giftbox = 1
