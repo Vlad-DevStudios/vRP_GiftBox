@@ -13,22 +13,33 @@ cfg.message = {
 	not_enough_gb = "~w~[~g~GiftBox~w~] You don't have enough ~g~GiftBoxes~w~!",
 	tr_succes = "~w~[~g~GiftBox~w~] The ~g~Transaction ~w~was made successfully~w~!",
 	not_enough_m = "~w~[~g~GiftBox~w~] You don't have enough ~g~Money~w~!",
-	only_has = "~w~[~g~GiftBox~w~] Player only has ~g~"
+	only_has = "~w~[~g~GiftBox~w~] Player only has ~g~",
+	only_have = "~w~[~g~GiftBox~w~] You only have ~g~",
+	reset_msg = "~w~[~g~GiftBox~w~] You reset ~g~"
 }
 
 cfg.giftbox = {
-	msg_got = "~w~[~g~GiftBox~w~] You got a ~g~",
+	msg_got = "~w~[~g~GiftBox~w~] You got ~g~",
 	msg_got_n = "~w~[~g~GiftBox~w~] You didn't got any thing!",
 	open_amount = 1
+}
+
+cfg.trade = {
+	msg_received = "~w~[~g~GiftBox~w~] You received ~g~",
+	msg_give = "~w~[~g~GiftBox~w~] You gave ~g~",
 }
 
 cfg.cars = {
 	car1 = "t20",
 	car2 = "bagger",
 	car3 = "infernus",
+	car4 = "gtr",
+	car5 = "alpha",
 	car1_n = "T20",
 	car2_n = "Bagger",
-	car3_n = "Infernus"
+	car3_n = "Infernus",
+	car4_n = "GTR Nismo",
+	car5_n = "Alpha"
 }
 
 cfg.market = {
@@ -40,7 +51,7 @@ cfg.market = {
 cfg.paycheck = {
 	picture = "CHAR_BANK_BOL",
 	title = "GiftBox",
-	msg = "~w~[~g~GiftBox~w~] You got ~g~1 GiftBox~w~!",
+	msg = "~w~[~g~GiftBox~w~] You got ~g~5 GiftBox~w~!",
 	amount = 5
 }
 
@@ -49,15 +60,18 @@ cfg.menu = {
 	name_desc = "GiftBox Admin Menu",
 	take_desc = "Take giftboxes from a player",
 	give_desc = "Give giftboxes to a player",
-	cfgdb_desc = "Config the GiftBox DataBase",
+	open_desc = "Open a GiftBox to get a Random Prize",
 	reset_desc = "Reset the giftBox from a player",
+	giftbox_desc = "GiftBox Menu",
+	trade_desc = "You can trade your GiftBoxes with another player",
 	prompt_g = "GiftBoxes: ",
 	prompt_user_id = "User ID: ",
 	name = "GiftBox",
 	give_t = "Give",
 	take_t = "Take",
 	reset_t = "Reset GiftBoxes",
-	cfgdb_t = "Config DataBase"
+	open = "Open",
+	trade = "Trade",
 }
 
 cfg.open_giftbox = 1
