@@ -64,3 +64,8 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+RegisterNetEvent('vRP:giftboxmenuopen')
+AddEventHandler('vRP:giftboxmenuopen', function()
+TriggerServerEvent('vRP:giftboxopen')
+end)
