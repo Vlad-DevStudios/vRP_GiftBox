@@ -213,6 +213,8 @@ end
 
 local function giftboxadmin(player,choice)
 local cfg = getConfig()
+vRP.closeMenu({player})
+    SetTimeout(350, function()
 		vRP.buildMenu({"GiftBox Admin", {player = player}, function(menu)
 			menu.name = "GiftBox Admin"
 			menu.css={top="75px",header_color="rgba(200,0,0,0.75)"}
